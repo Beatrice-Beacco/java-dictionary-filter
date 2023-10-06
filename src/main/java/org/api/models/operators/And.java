@@ -1,4 +1,4 @@
-package org.api.models;
+package org.api.models.operators;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,15 +10,16 @@ import java.util.Map;
 
 @Getter
 @ToString
-public class Filter implements Operation {
-    private Operation[] filters;
+public class And implements Operation {
+    private Operation[] operations;
 
-    public Filter(Operation... filters) {
-        this.filters = filters;
+    public And(Operation... operations) {
+        this.operations = operations;
     }
+
     @Override
     public boolean matches(Map<String, ?> resource) throws FilterException {
-        for (Operation operation : filters) {
+        for (Operation operation : operations) {
             if (!operation.matches(resource)) return false;
         }
         return true;

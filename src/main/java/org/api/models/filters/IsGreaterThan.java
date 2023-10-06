@@ -24,6 +24,7 @@ public class IsGreaterThan implements Operation {
         if (resourceValue instanceof String && operationValue instanceof String) {
             return ((String) resourceValue).length() > ((String) operationValue).length();
         }
+        //TODO: compare length of lists, sets and maps
         throw new FilterException("Operation value and resource value must be both either a number or string: operationValue " + resourceValue + ", resourceValue " + resourceValue);
     }
 }
