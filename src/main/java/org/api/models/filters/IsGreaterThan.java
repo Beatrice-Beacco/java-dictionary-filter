@@ -28,6 +28,9 @@ public class IsGreaterThan implements Operation {
         Optional<Object> resourceValueOptional = OperationUtils.getNestedValue(resource, valuePath);
         if (!resourceValueOptional.isPresent()) throw new FilterException("Resource does not contain key: " + valuePath);
         Object resourceValue = resourceValueOptional.get();
+        if (resourceValue instanceof String && operationValue instanceof String){
+            return ((String) resourceValue).length() > ((String) operationValue).length();
+        }
         if (resourceValue instanceof Number && operationValue instanceof Number) {
             return ((Number) resourceValue).doubleValue() > ((Number) operationValue).doubleValue();
         }
@@ -43,9 +46,6 @@ public class IsGreaterThan implements Operation {
         if (resourceValue instanceof Map && operationValue instanceof Map){
             return ((Map) resourceValue).size() > ((Map) operationValue).size();
         }
-        if (!OperationUtils.valuesAreComparable(resourceValue, operationValue)) {
-            throw new FilterException("Operation value and resource value must be both a compatible comparable object: operationValue " + resourceValue + ", resourceValue " + resourceValue);
-        }
-        return ((Comparable) resourceValue).compareTo(operationValue) > 0;
+        throw new FilterException("Operation value and resource value must be both a compatible comparable object: operationValue " + resourceValue + ", resourceValue " + resourceValue);
     }
 }

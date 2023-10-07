@@ -44,7 +44,7 @@ public class ExampleUsage {
     );
     public static void main( String[] args ) throws FilterException {
         //Combining filter predicates
-        Filter isYoungAndAlive = new Filter(new IsLowerThan("age", 51), new HasBooleanValue("alive", true)); //Any number of Operations can be passed to a Filter
+        Filter isYoungAndAlive = new Filter(new IsLowerThan("age", 50), new HasBooleanValue("alive", true)); //Any number of Operations can be passed to a Filter
         System.out.println("Is Beatrice young and alive? " + isYoungAndAlive.matches(beatrice)); //true
         System.out.println("Is Napoleone young and alive? " + isYoungAndAlive.matches(napoleone)); //false
 
