@@ -6,7 +6,10 @@ import org.api.models.filters.IsGreaterThan;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -47,6 +50,54 @@ public class IsGreaterThanTests {
     }
 
     @Test
+    @DisplayName("Returns true when the resource value list length is greater than the specified list length")
+    public void returnsTrueWhenTheResourceValueListLengthIsGreaterThanTheSpecifiedListLength() throws FilterException {
+        Operation isGreaterThanOperation = new IsGreaterThan("propKey", 2);
+        Map<String, ?> resource = Map.of("propKey", List.of("val1", "val2", "val3"));
+        assertTrue(isGreaterThanOperation.matches(resource));
+    }
+
+    @Test
+    @DisplayName("Returns false when the resource value list length is not greater than the specified list length")
+    public void returnsFalseWhenTheResourceValueListLengthIsNotGreaterThanTheSpecifiedListLength() throws FilterException {
+        Operation isGreaterThanOperation = new IsGreaterThan("propKey", 2);
+        Map<String, ?> resource = Map.of("propKey", List.of("val1", "val2"));
+        assertFalse(isGreaterThanOperation.matches(resource));
+    }
+
+    @Test
+    @DisplayName("Returns true when the resource list size is greater than the specified set value size")
+    public void returnsTrueWhenTheResourceListSizeIsGreaterThanTheSpecifiedSetSize() throws FilterException {
+        Operation isGreaterThanOperation = new IsGreaterThan("propKey", Set.of("val1", "val2"));
+        Map<String, ?> resource = Map.of("propKey", List.of("val1", "val2", "val3"));
+        assertTrue(isGreaterThanOperation.matches(resource));
+    }
+
+    @Test
+    @DisplayName("Returns true when the resource value map size is greater than the specified map size")
+    public void returnsTrueWhenTheResourceValueMapSizeIsGreaterThanTheSpecifiedMapSize() throws FilterException {
+        Operation isGreaterThanOperation = new IsGreaterThan("propKey", 2);
+        Map<String, ?> resource = Map.of("propKey", Map.of("key1", "val1", "key2", "val2", "key3", "val3"));
+        assertTrue(isGreaterThanOperation.matches(resource));
+    }
+
+    @Test
+    @DisplayName("Returns false when the resource value map size is not greater than the specified map size")
+    public void returnsFalseWhenTheResourceValueMapSizeIsNotGreaterThanTheSpecifiedMapSize() throws FilterException {
+        Operation isGreaterThanOperation = new IsGreaterThan("propKey", 2);
+        Map<String, ?> resource = Map.of("propKey", Map.of("key1", "val1", "key2", "val2"));
+        assertFalse(isGreaterThanOperation.matches(resource));
+    }
+
+    @Test
+    @DisplayName("Returns true when the resource value map size is greater than the specified map value size")
+    public void returnsTrueWhenTheResourceValueMapSizeIsGreaterThanTheSpecifiedMapValueSize() throws FilterException {
+        Operation isGreaterThanOperation = new IsGreaterThan("propKey", Map.of("key1", "val1"));
+        Map<String, ?> resource = Map.of("propKey", Map.of("key1", "val1", "key2", "val2"));
+        assertTrue(isGreaterThanOperation.matches(resource));
+    }
+
+    @Test
     @DisplayName("Throws a FilterException when the resource does not contain the property key")
     public void throwsAFilterExceptionWhenTheResourceDoesNotContainThePropertyKey() throws FilterException {
         Operation isGreaterThanOperation = new IsGreaterThan("propKey", 5);
@@ -55,7 +106,7 @@ public class IsGreaterThanTests {
     }
 
     @Test
-    @DisplayName("Throws a FilterException when the resource value is not a number or a string")
+    @DisplayName("Throws a FilterException when the resource values are not comparable")
     public void throwsAFilterExceptionWhenTheResourceValueIsNotANumberOrAString() throws FilterException {
         Operation isGreaterThanOperation = new IsGreaterThan("propKey", 5);
         Map<String, Boolean> resource = Map.of("propKey", true);
@@ -63,7 +114,7 @@ public class IsGreaterThanTests {
     }
 
     @Test
-    @DisplayName("Throws a FilterException when the operation value is not a number or a string")
+    @DisplayName("Throws a FilterException when the operation values are not comparable")
     public void throwsAFilterExceptionWhenTheResourceValueIsNotANumberOrAString2() throws FilterException {
         Operation isGreaterThanOperation = new IsGreaterThan("propKey", true);
         Map<String, String> resource = Map.of("propKey", "value");
