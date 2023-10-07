@@ -48,8 +48,8 @@ public class ExampleUsage {
 
         //Combining filters with logical operators
         Operation isNotYoungAndAlive = new Not(isYoungAndAlive); //Use previous filter as operation
-        Operation hasALongerNameOrSurname = new And(new IsGreaterThan("name", "Carlo"), new IsGreaterThan("surname", "Magno"));
-        Filter isNotYoungAndAliveAndHasALongerNameThanCarloMagno = new Filter(isNotYoungAndAlive, hasALongerNameOrSurname);
+        Operation hasALongerNameOrSurname = new And(new IsGreaterThan("name", "Carlo"), new IsGreaterThan("surname", "Magno")); //Combine Operations with hand logic
+        Filter isNotYoungAndAliveAndHasALongerNameThanCarloMagno = new Filter(isNotYoungAndAlive, hasALongerNameOrSurname); //Combine logic operators with a filter
         System.out.println("Is Beatrice not young and alive and has a longer name than Carlo Magno? " + isNotYoungAndAliveAndHasALongerNameThanCarloMagno.matches(beatrice)); //false
         System.out.println("Is Napoleone not young and alive and has a longer name than Carlo Magno? " + isNotYoungAndAliveAndHasALongerNameThanCarloMagno.matches(napoleone)); //true
     }

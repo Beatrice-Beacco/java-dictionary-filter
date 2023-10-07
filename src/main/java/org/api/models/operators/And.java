@@ -9,19 +9,14 @@ import org.api.interfaces.Operation;
 import java.util.Map;
 
 @Getter
+@AllArgsConstructor
 @ToString
 public class And implements Operation {
-    private Operation[] operations;
-
-    public And(Operation... operations) {
-        this.operations = operations;
-    }
+    private Operation firstOperation;
+    private Operation secondOperation;
 
     @Override
     public boolean matches(Map<String, ?> resource) throws FilterException {
-        for (Operation operation : operations) {
-            if (!operation.matches(resource)) return false;
-        }
-        return true;
+        return firstOperation.matches(resource) && secondOperation.matches(resource);
     }
 }
